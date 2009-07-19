@@ -24,7 +24,8 @@ namespace Sticks.Core
 	public class DrumNote
 	{
 		/// <summary>
-		/// The drum voice of this note.
+		/// The drum voice of this note. If "Invalid" we probably have a MidiNote
+		/// rather than a Voice.
 		/// </summary>
 		public Drums Voice
 		{
@@ -54,7 +55,17 @@ namespace Sticks.Core
 		private long _timestamp;
 
 		/// <summary>
-		/// Create a note
+		/// The MIDI note number of this note
+		/// </summary>
+		public int MidiNote
+		{
+			get { return _midiNote; }
+			set { _midiNote = value; }
+		}
+		private int _midiNote;
+
+		/// <summary>
+		/// Create a note using our internal drum voices
 		/// </summary>
 		/// <param name="Voice">The drum voice</param>
 		/// <param name="Velocity">Midi velocity</param>
@@ -64,7 +75,23 @@ namespace Sticks.Core
 			this.Voice = Voice;
 			this.Velocity = Velocity;
 			this.Timestamp = Timestamp;
+			this.MidiNote = 0; // XXX ...or something better
 		}
+
+		/// <summary>
+		/// Create a note but with a MIDI note number
+		/// </summary>
+		/// <param name="Voice">The MIDI note number</param>
+		/// <param name="Velocity">Midi velocity</param>
+		/// <param name="Timestamp">Note timestamp</param>
+		public DrumNote(int MidiNote, int Velocity, long Timestamp)
+		{
+			this.Voice = Drums.Invalid;
+			this.MidiNote = MidiNote;
+			this.Velocity = Velocity;
+			this.Timestamp = Timestamp;
+		}
+
 	}
 
 
